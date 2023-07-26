@@ -34,9 +34,14 @@ jobs:
       with:
         go-version: '1.20'
 
-    - uses: mbround18/setup-osxcross@v1
-      with:
-        osx-version: "12.3"
+    - name: Setup osxcross (for darwin builds only)
+      if: matrix.goos == 'darwin'
+      run: |
+        sudo apt-get install -y clang
+        git clone https://github.com/tpoechtrager/osxcross.git
+        wget -P osxcross/tarballs https://github.com/phracker/MacOSX-SDKs/releases/download/10.15/MacOSX10.15.sdk.tar.xz
+        UNATTENDED=yes OSX_VERSION_MIN=10.6 osxcross/build.sh
+      shell: bash
 
     - name: Build Library
       run: |
