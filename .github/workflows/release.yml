@@ -61,5 +61,5 @@ jobs:
       uses: actions/upload-artifact@v3
       with:
         name: sapphirewrapper-${{ matrix.goos }}-${{ matrix.goarch }}
-        path: ./sapphirewrapper${{ matrix.ext }}
+        path: ./go/sapphirewrapper${{ matrix.ext }}
 
