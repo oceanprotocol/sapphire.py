@@ -2,11 +2,8 @@ name: Build Library
 
 on:
   push:
-    branches:
-      - main
-  pull_request:
-    branches:
-      - main
+    tags:
+      - 'v*'
 
 jobs:
   build:
@@ -63,3 +60,49 @@ jobs:
         name: sapphirewrapper-${{ matrix.goos }}-${{ matrix.goarch }}
         path: ./go/sapphirewrapper${{ matrix.ext }}
 
+    - name: Commit and push built library
+      run: |
+        git config --global user.name 'github-actions'
+        git config --global user.email 'github-actions@github.com'
+        mkdir -p bin
+        mv ./go/sapphirewrapper${{ matrix.ext }} ./bin/
+        git add ./bin/sapphirewrapper${{ matrix.ext }}
+        git commit -m "Add built library for ${{ matrix.goos }}-${{ matrix.goarch }}"
+        git push
+      shell: bash
+
+  release:
+    name: Create Release
+    needs: [build]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ github.ref }}
+          release_name: Release ${{ github.ref }}
+          draft: false
+          prerelease: false
+
+      - name: Attach artifacts to release
+        uses: actions/download-artifact@v2
+        with:
+          name: sapphirewrapper-${{ matrix.goos }}-${{ matrix.goarch }}
+          path: ./artifacts/
+
+      - name: Upload Release Asset
+        id: upload-release-asset 
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./artifacts/sapphirewrapper${{ matrix.ext }}
+          asset_name: sapphirewrapper-${{ matrix.goos }}-${{ matrix.goarch }}${{ matrix.ext }}
+          asset_content_type: application/octet-stream
