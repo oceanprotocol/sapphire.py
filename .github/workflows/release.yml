@@ -27,7 +27,7 @@ jobs:
 
     steps:
     - name: Checkout code
-      uses: actions/checkout@v2
+      uses: actions/checkout@v3
 
     - name: Set up Go
       uses: actions/setup-go@v4
@@ -56,7 +56,7 @@ jobs:
       shell: bash
 
     - name: Upload Artifacts
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v3
       with:
         name: sapphirewrapper-${{ matrix.goos }}-${{ matrix.goarch }}
         path: ./sapphirewrapper${{ matrix.ext }}
