@@ -60,16 +60,19 @@ jobs:
         name: sapphirewrapper-${{ matrix.goos }}-${{ matrix.goarch }}
         path: ./go/sapphirewrapper${{ matrix.ext }}
 
-    - name: Checkout code
+    - name: Checkout to main
       uses: actions/checkout@v2
       with:
         ref: refs/heads/main
 
+    - name: Download built library
+      uses: actions/download-artifact@v2
+      with:
+        name: sapphirewrapper-${{ matrix.goos }}-${{ matrix.goarch }}
+        path: ./go
+
     - name: Commit and push built library
       run: |
-        pwd
-        ls -lah ../
-        ls -lah .
         git config --global user.name 'github-actions'
         git config --global user.email 'github-actions@github.com'
         mkdir -p bin
