@@ -84,28 +84,23 @@ jobs:
 
   release:
     name: Create Release
-    needs: [build]
+    needs: build
     runs-on: ubuntu-latest
-
-    strategy:
-      matrix:
-        goos: [linux, darwin]
-        goarch: [amd64]
-        include:
-        # - goos: windows
-        #   ext: '.dll'
-        - goos: darwin
-          ext: '.dylib'
-          CC: o64-clang
-          CXX: o64-clang++
-        - goos: linux
-          ext: '.so'
-          CC: gcc
-          CXX: g++
-
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
+
+      - name: Download built library - Linux
+        uses: actions/download-artifact@v2
+        with:
+          name: sapphirewrapper-linux-amd64
+          path: ./artifacts/
+
+      - name: Download built library - Darwin
+        uses: actions/download-artifact@v2
+        with:
+          name: sapphirewrapper-darwin-amd64
+          path: ./artifacts/
 
       - name: Create Release
         id: create_release
@@ -118,19 +113,24 @@ jobs:
           draft: false
           prerelease: false
 
-      - name: Attach artifacts to release
-        uses: actions/download-artifact@v2
-        with:
-          name: sapphirewrapper-${{ matrix.goos }}-${{ matrix.goarch }}
-          path: ./artifacts/
-
-      - name: Upload Release Asset
-        id: upload-release-asset 
+      - name: Upload Release Asset - Linux
+        id: upload-release-asset-linux
         uses: actions/upload-release-asset@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./artifacts/sapphirewrapper${{ matrix.ext }}
-          asset_name: sapphirewrapper-${{ matrix.goos }}-${{ matrix.goarch }}${{ matrix.ext }}
+          asset_path: ./artifacts/sapphirewrapper.so
+          asset_name: sapphirewrapper-linux-amd64.so
+          asset_content_type: application/octet-stream
+
+      - name: Upload Release Asset - Darwin
+        id: upload-release-asset-darwin
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./artifacts/sapphirewrapper.dylib
+          asset_name: sapphirewrapper-darwin-amd64.dylib
           asset_content_type: application/octet-stream
