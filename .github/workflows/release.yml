@@ -34,6 +34,10 @@ jobs:
       with:
         go-version: '1.20'
 
+    - uses: mbround18/setup-osxcross@v1
+      with:
+        osx-version: "12.3"
+
     - name: Build Library
       run: |
         export GOOS=${{ matrix.goos }}
