@@ -67,6 +67,7 @@ jobs:
 
     - name: Commit and push built library
       run: |
+        cd ../
         git config --global user.name 'github-actions'
         git config --global user.email 'github-actions@github.com'
         mkdir -p bin
