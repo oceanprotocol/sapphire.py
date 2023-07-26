@@ -18,10 +18,10 @@ jobs:
         goos: [linux, darwin, windows]
         goarch: [amd64]
         include:
-        - goos: windows
-          ext: '.dll'
-        - goos: darwin
-          ext: '.dylib'
+        # - goos: windows
+        #   ext: '.dll'
+        # - goos: darwin
+        #   ext: '.dylib'
         - goos: linux
           ext: '.so'
 
