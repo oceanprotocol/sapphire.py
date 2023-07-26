@@ -1,0 +1,51 @@
+name: Build Library
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        goos: [linux, darwin, windows]
+        goarch: [amd64]
+        include:
+        - goos: windows
+          ext: '.dll'
+        - goos: darwin
+          ext: '.dylib'
+        - goos: linux
+          ext: '.so'
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Set up Go
+      uses: actions/setup-go@v2
+      with:
+        go-version: 1.16
+
+    - name: Build Library
+      run: |
+        export GOOS=${{ matrix.goos }}
+        export GOARCH=${{ matrix.goarch }}
+        export CGO_ENABLED=1
+        cd go
+        go build -o sapphirewrapper${{ matrix.ext }} -buildmode=c-shared
+      shell: bash
+
+    - name: Upload Artifacts
+      uses: actions/upload-artifact@v2
+      with:
+        name: sapphirewrapper-${{ matrix.goos }}-${{ matrix.goarch }}
+        path: ./sapphirewrapper${{ matrix.ext }}
+
