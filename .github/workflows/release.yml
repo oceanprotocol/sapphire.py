@@ -22,8 +22,12 @@ jobs:
         #   ext: '.dll'
         - goos: darwin
           ext: '.dylib'
+          CC: o64-clang
+          CXX: o64-clang++
         - goos: linux
           ext: '.so'
+          CC: gcc
+          CXX: g++
 
     steps:
     - name: Checkout code
