@@ -38,9 +38,9 @@ def send_encrypted_sapphire_tx(
     recipient: bytes,
     rpc_url: bytes,
     eth_amount: int,
-    gas_price: int,
+    gas_limit: int,
     data: str,
 ) -> int:
     return lib.SendETHTransaction(
-        pk, sender, recipient, rpc_url, eth_amount, gas_price, data.encode("utf-8")
+        pk, sender, recipient, rpc_url, eth_amount, gas_limit, data.encode("utf-8")
     )
