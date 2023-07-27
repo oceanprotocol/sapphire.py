@@ -60,27 +60,6 @@ jobs:
         name: sapphirewrapper-${{ matrix.goos }}-${{ matrix.goarch }}
         path: ./go/sapphirewrapper${{ matrix.ext }}
 
-    - name: Install pypa/build
-      run: >-
-          python -m
-          pip install
-          build
-          --user
-
-    - name: Build a binary wheel and a source tarball
-      run: >-
-          python -m
-          build
-          --sdist
-          --wheel
-          --outdir dist/
-
-    - name: Publish package
-      uses: pypa/gh-action-pypi-publish@release/v1
-      with:
-          user: __token__
-          verbose: true
-          password: ${{ secrets.PYPI_PASSWORD }}
 
   release:
     name: Create Release
@@ -134,3 +113,25 @@ jobs:
           asset_path: ./artifacts/sapphirewrapper.dylib
           asset_name: sapphirewrapper-darwin-amd64.dylib
           asset_content_type: application/octet-stream
+
+      - name: Install pypa/build
+        run: >-
+            python -m
+            pip install
+            build
+            --user
+
+      - name: Build a binary wheel and a source tarball
+        run: >-
+            python -m
+            build
+            --sdist
+            --wheel
+            --outdir dist/
+
+      - name: Publish package
+        uses: pypa/gh-action-pypi-publish@release/v1
+        with:
+            user: __token__
+            verbose: true
+            password: ${{ secrets.PYPI_PASSWORD }}
