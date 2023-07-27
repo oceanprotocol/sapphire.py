@@ -73,13 +73,13 @@ jobs:
         uses: actions/download-artifact@v2
         with:
           name: sapphirewrapper-linux-amd64
-          path: ./artifacts/
+          path: ./bin/
 
       - name: Download built library - Darwin
         uses: actions/download-artifact@v2
         with:
           name: sapphirewrapper-darwin-amd64
-          path: ./artifacts/
+          path: ./bin/
 
       - name: Create Release
         id: create_release
@@ -99,7 +99,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./artifacts/sapphirewrapper.so
+          asset_path: ./bin/sapphirewrapper.so
           asset_name: sapphirewrapper-linux-amd64.so
           asset_content_type: application/octet-stream
 
@@ -110,9 +110,14 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./artifacts/sapphirewrapper.dylib
+          asset_path: ./bin/sapphirewrapper.dylib
           asset_name: sapphirewrapper-darwin-amd64.dylib
           asset_content_type: application/octet-stream
+
+      - name: Set up Python 3.8
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.8'
 
       - name: Install pypa/build
         run: >-
