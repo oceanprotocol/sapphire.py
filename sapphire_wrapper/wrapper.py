@@ -4,13 +4,13 @@ import platform
 lib = None
 
 if platform.system() == "Darwin":
-    lib = ctypes.CDLL("./go/sapphirewrapper.dylib")
+    lib = ctypes.CDLL("./bin/sapphirewrapper.dylib")
 
 if platform.system() == "Windows":
     raise Exception("Windows is not supported")
 
 if platform.system() == "Linux":
-    lib = ctypes.CDLL("./go/sapphirewrapper.so")
+    lib = ctypes.CDLL("./bin/sapphirewrapper.so")
 
 # Define argument types
 lib.SendETHTransaction.argtypes = [
