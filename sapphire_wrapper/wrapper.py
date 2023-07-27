@@ -33,10 +33,10 @@ lib.SendETHTransaction.argtypes = [
 lib.SendETHTransaction.restype = ctypes.c_int
 
 def send_encrypted_sapphire_tx(
-    pk: bytes,
-    sender: bytes,
-    recipient: bytes,
-    rpc_url: bytes,
+    pk: str,
+    sender: str,
+    recipient: str,
+    rpc_url: str,
     eth_amount: int,
     gas_limit: int,
     data: str,
