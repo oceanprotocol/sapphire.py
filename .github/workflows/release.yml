@@ -60,27 +60,27 @@ jobs:
         name: sapphirewrapper-${{ matrix.goos }}-${{ matrix.goarch }}
         path: ./go/sapphirewrapper${{ matrix.ext }}
 
-    - name: Checkout to main
-      uses: actions/checkout@v2
-      with:
-        ref: refs/heads/main
+    - name: Install pypa/build
+      run: >-
+          python -m
+          pip install
+          build
+          --user
 
-    - name: Download built library
-      uses: actions/download-artifact@v2
-      with:
-        name: sapphirewrapper-${{ matrix.goos }}-${{ matrix.goarch }}
-        path: ./go
+    - name: Build a binary wheel and a source tarball
+      run: >-
+          python -m
+          build
+          --sdist
+          --wheel
+          --outdir dist/
 
-    - name: Commit and push built library
-      run: |
-        git config --global user.name 'github-actions'
-        git config --global user.email 'github-actions@github.com'
-        mkdir -p bin
-        mv ./go/sapphirewrapper${{ matrix.ext }} ./bin/
-        git add ./bin/sapphirewrapper${{ matrix.ext }}
-        git commit -m "Add built library for ${{ matrix.goos }}-${{ matrix.goarch }}"
-        git push
-      shell: bash
+    - name: Publish package
+      uses: pypa/gh-action-pypi-publish@release/v1
+      with:
+          user: __token__
+          verbose: true
+          password: ${{ secrets.PYPI_PASSWORD }}
 
   release:
     name: Create Release
