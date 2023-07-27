@@ -26,7 +26,7 @@ lib.SendETHTransaction.argtypes = [
 # Define return type
 lib.SendETHTransaction.restype = ctypes.c_int
 
-def send_sapphire_tx(
+def send_encrypted_sapphire_tx(
     pk: bytes,
     sender: bytes,
     recipient: bytes,

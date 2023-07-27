@@ -1,4 +1,4 @@
-from setuptools import setup
+from setuptools import find_packages, setup
 
 readme = ""
 
@@ -19,6 +19,11 @@ setup(
     long_description=readme,
     long_description_content_type="text/markdown",
     include_package_data=True,
+    packages=find_packages(
+        include=[
+            "sapphire_wrapper",
+        ]
+    ),
     url="https://github.com/oceanprotocol/pdr-sapphire-wrapper",
     version='0.1.0',
     zip_safe=False,
