@@ -8,7 +8,7 @@ on:
 jobs:
   build:
     name: Build
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
 
     strategy:
       matrix:
@@ -39,7 +39,7 @@ jobs:
       if: matrix.goos == 'darwin'
       uses: mbround18/setup-osxcross@v1
       with:
-        osx-version: "12.3"
+        osx-version: "11.3"
 
     - name: Build Library
       run: |
