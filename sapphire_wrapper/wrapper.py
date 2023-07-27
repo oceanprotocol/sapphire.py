@@ -1,16 +1,22 @@
+import os
 import ctypes
 import platform
+import sys
 
 lib = None
+bin_dir = os.path.join(sys.prefix, 'sapphire_wrapper_bin')
 
 if platform.system() == "Darwin":
-    lib = ctypes.CDLL("./bin/sapphirewrapper.dylib")
+    lib_path = os.path.join(bin_dir, 'sapphirewrapper.dylib')
+    lib = ctypes.CDLL(lib_path)
 
 if platform.system() == "Windows":
     raise Exception("Windows is not supported")
 
 if platform.system() == "Linux":
-    lib = ctypes.CDLL("./bin/sapphirewrapper.so")
+    lib_path = os.path.join(bin_dir, 'sapphirewrapper.so')
+    lib = ctypes.CDLL(lib_path)
+
 
 # Define argument types
 lib.SendETHTransaction.argtypes = [
