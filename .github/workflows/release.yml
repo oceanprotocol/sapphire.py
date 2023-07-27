@@ -47,7 +47,7 @@ jobs:
         export GOARCH=${{ matrix.goarch }}
         export CC=${{ matrix.CC }}
         export CXX=${{ matrix.CXX }}
-        export CGO_ENABLED=1
+        export CGO_ENABLED=0
         export PATH="$(pwd)/osxcross/target/bin:$PATH"
         cd go
         go mod tidy
