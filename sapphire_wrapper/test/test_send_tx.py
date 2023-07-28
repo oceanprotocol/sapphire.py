@@ -1,6 +1,6 @@
 import os
 import pytest
-from sapphire_wrapper import send_encrypted_sapphire_tx
+from sapphire_wrapper import wrapper
 
 @pytest.fixture
 def test_private_key():
@@ -17,7 +17,7 @@ def test_send_encrypted_sapphire_tx(test_private_key):
     gas_limit = 50000
     data = ""
 
-    result = send_encrypted_sapphire_tx(
+    result = wrapper.send_encrypted_sapphire_tx(
         test_private_key,
         sender,
         recipient,
