@@ -31,7 +31,8 @@ func SendETHTransaction(keyHexC *C.char, myAddrC *C.char, toAddrC *C.char, rpcUr
 	datahex := C.GoString(dataC)
 	gasCostGwei := uint64(gasCostGweiC)
 	nonce := uint64(nonceC)
-
+	gasPrice := big.NewInt(0)
+	err := uint64(0)
 	value := big.NewInt(int64(valueC))
 	value = value.Mul(value, big.NewInt(1000000000)) // convert gwei to wei
 
