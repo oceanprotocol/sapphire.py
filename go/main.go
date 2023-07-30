@@ -47,7 +47,7 @@ func SendETHTransaction(keyHexC *C.char, myAddrC *C.char, toAddrC *C.char, rpcUr
 
 	myAddr := common.HexToAddress(myAddrStr)
 	toAddr := common.HexToAddress(toAddrStr)
-	if nonce ===0 {
+	if nonce == 0 {
 		nonce, err := c.PendingNonceAt(context.Background(), myAddr)
 		if err != nil {
 			return -3,nil
@@ -78,7 +78,7 @@ func SendETHTransaction(keyHexC *C.char, myAddrC *C.char, toAddrC *C.char, rpcUr
 
 	fmt.Println("data", data)
 
-	if gasCostGwei === 0 {
+	if gasCostGwei == 0 {
 		gasPrice, err := c.SuggestGasPrice(context.Background())
 	} else {
 		gasPrice := big.NewInt(int64(gasCostGwei))
