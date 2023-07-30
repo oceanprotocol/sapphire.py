@@ -32,7 +32,7 @@ func SendETHTransaction(keyHexC *C.char, myAddrC *C.char, toAddrC *C.char, rpcUr
 	gasCostGwei := uint64(gasCostGweiC)
 	nonce := uint64(nonceC)
 	gasPrice := big.NewInt(0)
-	err := nil
+	err := error(nil)
 	
 	value := big.NewInt(int64(valueC))
 	value = value.Mul(value, big.NewInt(1000000000)) // convert gwei to wei
@@ -51,6 +51,7 @@ func SendETHTransaction(keyHexC *C.char, myAddrC *C.char, toAddrC *C.char, rpcUr
 	toAddr := common.HexToAddress(toAddrStr)
 	if nonce == 0 {
 		nonce, err := c.PendingNonceAt(context.Background(), myAddr)
+		fmt.Println("Pending nonce:", nonce)
 		if err != nil {
 			return -3,nil
 		}
@@ -82,6 +83,10 @@ func SendETHTransaction(keyHexC *C.char, myAddrC *C.char, toAddrC *C.char, rpcUr
 
 	if gasCostGwei == 0 {
 		gasPrice, err := c.SuggestGasPrice(context.Background())
+		fmt.Println("SuggestGasPrice:", gasPrice.String())
+		if err != nil {
+			return -43,nil
+		}
 	} else {
 		gasPrice := big.NewInt(int64(gasCostGwei))
 		gasPrice = gasPrice.Mul(gasPrice, big.NewInt(1000000000)) // convert gwei to wei
