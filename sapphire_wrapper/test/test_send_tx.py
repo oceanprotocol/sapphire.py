@@ -17,7 +17,7 @@ def test_send_encrypted_sapphire_tx(test_private_key):
     gas_limit = 50000
     data = ""
 
-    result = wrapper.send_encrypted_sapphire_tx(
+    result,tx_hash = wrapper.send_encrypted_sapphire_tx(
         test_private_key,
         sender,
         recipient,
@@ -25,6 +25,8 @@ def test_send_encrypted_sapphire_tx(test_private_key):
         eth_amount,
         gas_limit,
         data,
+        0,
+        0
     )
 
     assert isinstance(result, int)

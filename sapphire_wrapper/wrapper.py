@@ -41,6 +41,8 @@ def send_encrypted_sapphire_tx(
     eth_amount: int,
     gas_limit: int,
     data: str,
+    gas_cost_gwei: int,
+    nonce: int
 ) -> int:
     return lib.SendETHTransaction(
         pk.encode("utf-8"),
@@ -50,4 +52,6 @@ def send_encrypted_sapphire_tx(
         eth_amount,
         gas_limit,
         data.encode("utf-8"),
+        gas_cost_gwei,
+        nonce
     )
