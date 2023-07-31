@@ -31,7 +31,7 @@ lib.SendETHTransaction.argtypes = [
 
 
 class SendETHTransactionResult(ctypes.Structure):
-    _fields_ = [("resultCode", ctypes.c_int),("resultStr", ctypes.c_char_p)]
+    _fields_ = [("resultCode", ctypes.c_int), ("resultStr", ctypes.c_char_p)]
 
 
 # Define return type
