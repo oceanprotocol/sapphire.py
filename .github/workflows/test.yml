@@ -98,5 +98,7 @@ jobs:
           pip install .
 
       - name: Run tests
+        env:
+          TEST_PRIVATE_KEY: ${{ secrets.TEST_PRIVATE_KEY }}
         run: |
           pytest
