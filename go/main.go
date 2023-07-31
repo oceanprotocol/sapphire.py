@@ -33,18 +33,18 @@ func SendETHTransaction(keyHexC *C.char, myAddrC *C.char, toAddrC *C.char, rpcUr
 	nonce := uint64(nonceC)
 	gasPrice := big.NewInt(0)
 	err := error(nil)
-	
+
 	value := big.NewInt(int64(valueC))
 	value = value.Mul(value, big.NewInt(1000000000)) // convert gwei to wei
 
 	c, err := ethclient.Dial(rpcUrlStr)
 	if err != nil {
-		return -1,nil
+		return -1, nil
 	}
 
 	key, err := crypto.HexToECDSA(keyhex)
 	if err != nil {
-		return -2,nil
+		return -2, nil
 	}
 
 	myAddr := common.HexToAddress(myAddrStr)
@@ -53,13 +53,13 @@ func SendETHTransaction(keyHexC *C.char, myAddrC *C.char, toAddrC *C.char, rpcUr
 		nonce, err := c.PendingNonceAt(context.Background(), myAddr)
 		fmt.Println("Pending nonce:", nonce)
 		if err != nil {
-			return -3,nil
+			return -3, nil
 		}
 	}
 
 	chainId, err := c.NetworkID(context.Background())
 	if err != nil {
-		return -4,nil
+		return -4, nil
 	}
 
 	var data []byte
@@ -73,7 +73,7 @@ func SendETHTransaction(keyHexC *C.char, myAddrC *C.char, toAddrC *C.char, rpcUr
 
 		data, err = hex.DecodeString(datahex)
 		if err != nil {
-			return -42,nil
+			return -42, nil
 		}
 		cipher, _ := sapphire.NewCipher(chainId.Uint64())
 		data = cipher.EncryptEncode(data)
@@ -85,7 +85,7 @@ func SendETHTransaction(keyHexC *C.char, myAddrC *C.char, toAddrC *C.char, rpcUr
 		gasPrice, err := c.SuggestGasPrice(context.Background())
 		fmt.Println("SuggestGasPrice:", gasPrice.String())
 		if err != nil {
-			return -43,nil
+			return -43, nil
 		}
 	} else {
 		gasPrice := big.NewInt(int64(gasCostGwei))
@@ -105,16 +105,16 @@ func SendETHTransaction(keyHexC *C.char, myAddrC *C.char, toAddrC *C.char, rpcUr
 
 	signedTx, err := types.SignTx(tx, types.LatestSignerForChainID(chainId), key)
 	if err != nil {
-		return -5,nil
+		return -5, nil
 	}
 
 	err = c.SendTransaction(context.Background(), signedTx)
 	if err != nil {
 		fmt.Println(err)
-		return -6,nil
+		return -6, nil
 	}
 
-	return 0,C.CString(signedTx.Hash().Hex())
+	return 0, C.CString(signedTx.Hash().Hex())
 }
 
 func main() {}
