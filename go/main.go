@@ -88,7 +88,7 @@ func SendETHTransaction(keyHexC *C.char, myAddrC *C.char, toAddrC *C.char, rpcUr
 			return -43, nil
 		}
 	} else {
-		gasPrice := big.NewInt(int64(gasCostGwei))
+		gasPrice = big.NewInt(int64(gasCostGwei))
 		gasPrice = gasPrice.Mul(gasPrice, big.NewInt(1000000000)) // convert gwei to wei
 	}
 
