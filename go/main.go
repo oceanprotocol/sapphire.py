@@ -22,38 +22,43 @@ import (
 )
 
 //export SendETHTransaction
-func SendETHTransaction(keyHexC *C.char, myAddrC *C.char, toAddrC *C.char, rpcUrl *C.char, valueC C.int, gasLimitC C.int, dataC *C.char) C.int {
+func SendETHTransaction(keyHexC *C.char, myAddrC *C.char, toAddrC *C.char, rpcUrl *C.char, valueC C.int, gasLimitC C.int, dataC *C.char, gasCostGweiC C.int, nonceC C.int) (C.int, *C.char) {
 	keyhex := C.GoString(keyHexC)
 	myAddrStr := C.GoString(myAddrC)
 	toAddrStr := C.GoString(toAddrC)
 	rpcUrlStr := C.GoString(rpcUrl)
 	gasLimit := uint64(gasLimitC)
 	datahex := C.GoString(dataC)
+	gasCostGwei := uint64(gasCostGweiC)
+	nonce := uint64(nonceC)
+	var gasPrice *big.Int
 
 	value := big.NewInt(int64(valueC))
 	value = value.Mul(value, big.NewInt(1000000000)) // convert gwei to wei
 
 	c, err := ethclient.Dial(rpcUrlStr)
 	if err != nil {
-		return -1
+		return -1, nil
 	}
 
 	key, err := crypto.HexToECDSA(keyhex)
 	if err != nil {
-		return -2
+		return -2, nil
 	}
 
 	myAddr := common.HexToAddress(myAddrStr)
 	toAddr := common.HexToAddress(toAddrStr)
-
-	nonce, err := c.PendingNonceAt(context.Background(), myAddr)
-	if err != nil {
-		return -3
+	if nonce == 0 {
+		nonce, err = c.PendingNonceAt(context.Background(), myAddr)
+		fmt.Println("Pending nonce:", nonce)
+		if err != nil {
+			return -3, nil
+		}
 	}
 
 	chainId, err := c.NetworkID(context.Background())
 	if err != nil {
-		return -4
+		return -4, nil
 	}
 
 	var data []byte
@@ -67,7 +72,7 @@ func SendETHTransaction(keyHexC *C.char, myAddrC *C.char, toAddrC *C.char, rpcUr
 
 		data, err = hex.DecodeString(datahex)
 		if err != nil {
-			return -42
+			return -42, nil
 		}
 		cipher, _ := sapphire.NewCipher(chainId.Uint64())
 		data = cipher.EncryptEncode(data)
@@ -75,7 +80,17 @@ func SendETHTransaction(keyHexC *C.char, myAddrC *C.char, toAddrC *C.char, rpcUr
 
 	fmt.Println("data", data)
 
-	gasPrice, err := c.SuggestGasPrice(context.Background())
+	if gasCostGwei == 0 {
+		gasPrice, err = c.SuggestGasPrice(context.Background())
+		fmt.Println("SuggestGasPrice:", gasPrice.String())
+		if err != nil {
+			return -43, nil
+		}
+	} else {
+		gasPrice = big.NewInt(int64(gasCostGwei))
+		gasPrice = gasPrice.Mul(gasPrice, big.NewInt(1000000000)) // convert gwei to wei
+	}
+
 	tx := types.NewTx(
 		&types.LegacyTx{
 			Nonce:    nonce,
@@ -89,16 +104,16 @@ func SendETHTransaction(keyHexC *C.char, myAddrC *C.char, toAddrC *C.char, rpcUr
 
 	signedTx, err := types.SignTx(tx, types.LatestSignerForChainID(chainId), key)
 	if err != nil {
-		return -5
+		return -5, nil
 	}
 
 	err = c.SendTransaction(context.Background(), signedTx)
 	if err != nil {
 		fmt.Println(err)
-		return -6
+		return -6, nil
 	}
 
-	return 0
+	return 0, C.CString(signedTx.Hash().Hex())
 }
 
 func main() {}
