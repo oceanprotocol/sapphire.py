@@ -25,7 +25,7 @@ setup(
         ]
     ),
     url="https://github.com/oceanprotocol/pdr-sapphire-wrapper",
-    version="0.1.11",
+    version="0.1.12",
     zip_safe=False,
     data_files=[
         (
