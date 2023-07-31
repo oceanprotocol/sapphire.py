@@ -29,8 +29,12 @@ lib.SendETHTransaction.argtypes = [
     ctypes.c_char_p,
 ]
 
+class SendETHTransactionResult(ctypes.Structure):
+    _fields_ = [("resultCode", ctypes.c_int),
+                ("resultStr", ctypes.c_char_p)]
+
 # Define return type
-lib.SendETHTransaction.restype = ctypes.c_int
+lib.SendETHTransaction.restype = SendETHTransactionResult
 
 
 def send_encrypted_sapphire_tx(
