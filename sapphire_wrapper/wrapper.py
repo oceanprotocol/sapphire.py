@@ -29,9 +29,10 @@ lib.SendETHTransaction.argtypes = [
     ctypes.c_char_p,
 ]
 
+
 class SendETHTransactionResult(ctypes.Structure):
-    _fields_ = [("resultCode", ctypes.c_int),
-                ("resultStr", ctypes.c_char_p)]
+    _fields_ = [("resultCode", ctypes.c_int), ("resultStr", ctypes.c_char_p)]
+
 
 # Define return type
 lib.SendETHTransaction.restype = SendETHTransactionResult
@@ -46,9 +47,9 @@ def send_encrypted_sapphire_tx(
     gas_limit: int,
     data: str,
     gas_cost_gwei: int,
-    nonce: int
-) -> int:
-    error, tx_hash = lib.SendETHTransaction(
+    nonce: int,
+) -> tuple:
+    result = lib.SendETHTransaction(
         pk.encode("utf-8"),
         sender.encode("utf-8"),
         recipient.encode("utf-8"),
@@ -57,6 +58,9 @@ def send_encrypted_sapphire_tx(
         gas_limit,
         data.encode("utf-8"),
         gas_cost_gwei,
-        nonce
+        nonce,
     )
-    return error, tx_hash
+    return (
+        result.resultCode,
+        result.resultStr.decode("utf-8") if result.resultStr is not None else None,
+    )
