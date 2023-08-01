@@ -78,8 +78,6 @@ func SendETHTransaction(keyHexC *C.char, myAddrC *C.char, toAddrC *C.char, rpcUr
 		data = cipher.EncryptEncode(data)
 	}
 
-	fmt.Println("data", data)
-
 	if gasCostGwei == 0 {
 		gasPrice, err = c.SuggestGasPrice(context.Background())
 		fmt.Println("SuggestGasPrice:", gasPrice.String())
