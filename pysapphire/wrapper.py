@@ -4,7 +4,7 @@ import platform
 import sys
 
 lib = None
-bin_dir = os.path.join(sys.prefix, "sapphire_wrapper_bin")
+bin_dir = os.path.join(sys.prefix, "pysapphire_bin")
 
 if platform.system() == "Darwin":
     lib_path = os.path.join(bin_dir, "sapphirewrapper.dylib")

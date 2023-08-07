@@ -34,7 +34,7 @@ pip install .
 To use the package, you need to import the `wrapper` module and call the `send_encrypted_sapphire_tx` function.
 
 ```python
-from sapphire_wrapper import wrapper
+from pysapphire import wrapper
 
 response = wrapper.send_encrypted_sapphire_tx(
     pk,        # Your private key as a string

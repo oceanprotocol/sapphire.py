@@ -21,7 +21,7 @@ setup(
     include_package_data=True,
     packages=find_packages(
         include=[
-            "sapphire_wrapper",
+            "pysapphire",
         ]
     ),
     url="https://github.com/oceanprotocol/pysapphire",
@@ -29,7 +29,7 @@ setup(
     zip_safe=False,
     data_files=[
         (
-            "sapphire_wrapper_bin",
+            "pysapphire_bin",
             ["bin/sapphirewrapper.dylib", "bin/sapphirewrapper.so"],
         )
     ],
