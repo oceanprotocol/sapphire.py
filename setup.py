@@ -25,7 +25,7 @@ setup(
         ]
     ),
     url="https://github.com/oceanprotocol/pysapphire",
-    version="0.1.12",
+    version="0.1.13",
     zip_safe=False,
     data_files=[
         (
