@@ -14,7 +14,7 @@ setup(
     ],
     description="Sapphire transaction wrapper",
     install_requires=[],
-    name="pdr-sapphire-wrapper",
+    name="pysapphire",
     license="Apache Software License 2.0",
     long_description=readme,
     long_description_content_type="text/markdown",
@@ -24,7 +24,7 @@ setup(
             "sapphire_wrapper",
         ]
     ),
-    url="https://github.com/oceanprotocol/pdr-sapphire-wrapper",
+    url="https://github.com/oceanprotocol/pysapphire",
     version="0.1.12",
     zip_safe=False,
     data_files=[

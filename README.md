@@ -1,4 +1,4 @@
-# pdr-sapphire-wrapper
+# pysapphire
 
 Python wrapper for sending encrypted transactions on Oasis Sapphire network
 
@@ -11,7 +11,7 @@ To install the package, you can either use PyPI or install from source:
 To install from PyPI, you can simply run the following command:
 
 ```shell
-pip install pdr-sapphire-wrapper
+pip install pysapphire
 ```
 
 ### From Source
@@ -19,8 +19,8 @@ pip install pdr-sapphire-wrapper
 Alternatively, to install from the source, clone the repository and navigate into the directory:
 
 ```shell
-git clone https://github.com/oceanprotocol/pdr-sapphire-wrapper.git
-cd pdr-sapphire-wrapper
+git clone https://github.com/oceanprotocol/pysapphire.git
+cd pysapphire
 ```
 
 Then, you can install it using pip:
