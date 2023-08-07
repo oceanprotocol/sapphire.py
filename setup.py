@@ -14,22 +14,22 @@ setup(
     ],
     description="Sapphire transaction wrapper",
     install_requires=[],
-    name="sapphireyp",
+    name="sapphirepy",
     license="Apache Software License 2.0",
     long_description=readme,
     long_description_content_type="text/markdown",
     include_package_data=True,
     packages=find_packages(
         include=[
-            "sapphireyp",
+            "sapphirepy",
         ]
     ),
-    url="https://github.com/oceanprotocol/sapphireyp",
+    url="https://github.com/oceanprotocol/sapphirepy",
     version="0.1.13",
     zip_safe=False,
     data_files=[
         (
-            "sapphireyp_bin",
+            "sapphirepy_bin",
             ["bin/sapphirewrapper.dylib", "bin/sapphirewrapper.so"],
         )
     ],

@@ -1,4 +1,4 @@
-# sapphireyp
+# sapphirepy
 
 Python wrapper for sending encrypted transactions on Oasis Sapphire network
 
@@ -11,7 +11,7 @@ To install the package, you can either use PyPI or install from source:
 To install from PyPI, you can simply run the following command:
 
 ```shell
-pip install sapphireyp
+pip install sapphirepy
 ```
 
 ### From Source
@@ -19,8 +19,8 @@ pip install sapphireyp
 Alternatively, to install from the source, clone the repository and navigate into the directory:
 
 ```shell
-git clone https://github.com/oceanprotocol/sapphireyp.git
-cd sapphireyp
+git clone https://github.com/oceanprotocol/sapphirepy.git
+cd sapphirepy
 ```
 
 Then, you can install it using pip:
@@ -34,7 +34,7 @@ pip install .
 To use the package, you need to import the `wrapper` module and call the `send_encrypted_sapphire_tx` function.
 
 ```python
-from sapphireyp import wrapper
+from sapphirepy import wrapper
 
 response = wrapper.send_encrypted_sapphire_tx(
     pk,        # Your private key as a string
