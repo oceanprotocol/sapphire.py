@@ -1,6 +1,6 @@
 import os
 import pytest
-from pysapphire import wrapper
+from sapphireyp import wrapper
 from web3 import Web3
 
 web3 = Web3()
