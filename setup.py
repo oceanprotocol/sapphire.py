@@ -14,7 +14,7 @@ setup(
     ],
     description="Sapphire transaction wrapper",
     install_requires=[],
-    name="sapphirepy",
+    name="sapphire.py",
     license="Apache Software License 2.0",
     long_description=readme,
     long_description_content_type="text/markdown",
