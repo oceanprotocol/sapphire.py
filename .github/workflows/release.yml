@@ -110,7 +110,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./bin/sapphirewrapper.so
+          asset_path: ./bin/sapphirewrapper-amd64.so
           asset_name: sapphirewrapper-linux-amd64.so
           asset_content_type: application/octet-stream
 
@@ -121,8 +121,19 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./bin/sapphirewrapper.dylib
+          asset_path: ./bin/sapphirewrapper-amd64.dylib
           asset_name: sapphirewrapper-darwin-amd64.dylib
+          asset_content_type: application/octet-stream
+
+      - name: Upload Release Asset - Darwin arm64
+        id: upload-release-asset-darwin-arm64
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./bin/sapphirewrapper-arm64.dylib
+          asset_name: sapphirewrapper-darwin-arm64.dylib
           asset_content_type: application/octet-stream
 
       - name: Set up Python 3.8
