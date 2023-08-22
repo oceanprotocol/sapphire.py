@@ -35,8 +35,6 @@ jobs:
         - goos: linux
           goarch: arm64
           ext: '.so'
-          CC: gcc
-          CXX: g++
 
         - goos: darwin
           goarch: arm64
@@ -61,12 +59,6 @@ jobs:
       with:
         osx-version: "11.3"
     
-    - name: Install arm-linux-gcc
-      if : matrix.goarch == 'arm64' && matrix.goos == 'linux'
-      run: |
-        sudo apt-get update
-        sudo apt-get install -y gcc-aarch64-linux-gnu
-
     - name: Build Library
       run: |
         export GOOS=${{ matrix.goos }}
