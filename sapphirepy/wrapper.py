@@ -5,9 +5,9 @@ import sys
 
 lib = None
 bin_dir = os.path.join(sys.prefix, "sapphirepy_bin")
+architecture = platform.machine()
 
 if platform.system() == "Darwin":
-    architecture = platform.machine()
     if architecture == "x86_64":
         lib_path = os.path.join(bin_dir, "sapphirewrapper-amd64.dylib")
         lib = ctypes.CDLL(lib_path)
