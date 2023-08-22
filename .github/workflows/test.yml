@@ -58,7 +58,7 @@ jobs:
         export PATH="$(pwd)/osxcross/target/bin:$PATH"
         cd go
         go mod tidy
-        go build -o sapphirewrapper${{ matrix.ext }} -buildmode=c-shared
+        go build -o sapphirewrapper-${{ matrix.goarch }}${{ matrix.ext }} -buildmode=c-shared
       shell: bash
 
     - name: Upload Artifacts
