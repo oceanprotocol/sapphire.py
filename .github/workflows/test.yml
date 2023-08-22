@@ -35,9 +35,9 @@ jobs:
         - goos: linux
           goarch: arm64
           ext: '.so'
-          CC: gcc
-          CXX: g++
-          
+          CC: arm-linux-gcc
+          CXX: arm-linux-gcc++
+
         - goos: darwin
           goarch: arm64
           ext: '.dylib'
