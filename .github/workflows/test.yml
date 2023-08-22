@@ -33,8 +33,6 @@ jobs:
           CC: oa64-clang
           CXX: oa64-clang++
 
-
-
     steps:
     - name: Checkout code
       uses: actions/checkout@v3
@@ -67,7 +65,7 @@ jobs:
       uses: actions/upload-artifact@v3
       with:
         name: sapphirewrapper-${{ matrix.goos }}-${{ matrix.goarch }}
-        path: ./go/sapphirewrapper${{ matrix.ext }}
+        path: ./go/sapphirewrapper-${{ matrix.goarch }}${{ matrix.ext }}
 
   test:
     name: Pytest
@@ -96,10 +94,16 @@ jobs:
           name: sapphirewrapper-linux-amd64
           path: ./bin/
 
-      - name: Download built library - Darwin
+      - name: Download built library - Darwin amd64
         uses: actions/download-artifact@v2
         with:
           name: sapphirewrapper-darwin-amd64
+          path: ./bin/
+
+      - name: Download built library - Darwin arm64
+        uses: actions/download-artifact@v2
+        with:
+          name: sapphirewrapper-darwin-arm64
           path: ./bin/
 
       - name: Install dependencies
