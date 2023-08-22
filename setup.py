@@ -25,7 +25,7 @@ setup(
         ]
     ),
     url="https://github.com/oceanprotocol/sapphirepy",
-    version="0.1.14",
+    version="0.1.15",
     zip_safe=False,
     data_files=[
         (
