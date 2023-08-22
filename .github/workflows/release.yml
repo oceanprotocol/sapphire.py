@@ -12,19 +12,24 @@ jobs:
 
     strategy:
       matrix:
-        goos: [linux, darwin]
-        goarch: [amd64, arm64]
         include:
-        # - goos: windows
-        #   ext: '.dll'
         - goos: darwin
+          goarch: amd64
           ext: '.dylib'
           CC: o64-clang
           CXX: o64-clang++
+
         - goos: linux
+          goarch: amd64
           ext: '.so'
           CC: gcc
           CXX: g++
+
+        - goos: darwin
+          goarch: arm64
+          ext: '.dylib'
+          CC: oa64-clang
+          CXX: oa64-clang++
 
     steps:
     - name: Checkout code
@@ -51,14 +56,14 @@ jobs:
         export PATH="$(pwd)/osxcross/target/bin:$PATH"
         cd go
         go mod tidy
-        go build -o sapphirewrapper${{ matrix.ext }} -buildmode=c-shared
+        go build -o sapphirewrapper-${{ matrix.goarch }}${{ matrix.ext }} -buildmode=c-shared
       shell: bash
 
     - name: Upload Artifacts
       uses: actions/upload-artifact@v3
       with:
         name: sapphirewrapper-${{ matrix.goos }}-${{ matrix.goarch }}
-        path: ./go/sapphirewrapper${{ matrix.ext }}
+        path: ./go/sapphirewrapper-${{ matrix.goarch }}${{ matrix.ext }}
 
 
   release:
@@ -75,10 +80,16 @@ jobs:
           name: sapphirewrapper-linux-amd64
           path: ./bin/
 
-      - name: Download built library - Darwin
+      - name: Download built library - Darwin amd64
         uses: actions/download-artifact@v2
         with:
           name: sapphirewrapper-darwin-amd64
+          path: ./bin/
+
+      - name: Download built library - Darwin arm64
+        uses: actions/download-artifact@v2
+        with:
+          name: sapphirewrapper-darwin-arm64
           path: ./bin/
 
       - name: Create Release

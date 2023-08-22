@@ -14,12 +14,7 @@ jobs:
 
     strategy:
       matrix:
-        goos: [linux, darwin]
-        goarch: [amd64, arm64]
         include:
-        # - goos: windows
-        #   ext: '.dll'
-
         - goos: darwin
           goarch: amd64
           ext: '.dylib'
@@ -32,19 +27,11 @@ jobs:
           CC: gcc
           CXX: g++
 
-        - goos: linux
-          goarch: arm64
-          ext: '.so'
-          CC: arm-linux-gcc
-          CXX: arm-linux-gcc++
-
         - goos: darwin
           goarch: arm64
           ext: '.dylib'
           CC: oa64-clang
           CXX: oa64-clang++
-
-
 
     steps:
     - name: Checkout code
@@ -60,7 +47,7 @@ jobs:
       uses: mbround18/setup-osxcross@v1
       with:
         osx-version: "11.3"
-
+    
     - name: Build Library
       run: |
         export GOOS=${{ matrix.goos }}
@@ -71,14 +58,14 @@ jobs:
         export PATH="$(pwd)/osxcross/target/bin:$PATH"
         cd go
         go mod tidy
-        go build -o sapphirewrapper${{ matrix.ext }} -buildmode=c-shared
+        go build -o sapphirewrapper-${{ matrix.goarch }}${{ matrix.ext }} -buildmode=c-shared
       shell: bash
 
     - name: Upload Artifacts
       uses: actions/upload-artifact@v3
       with:
         name: sapphirewrapper-${{ matrix.goos }}-${{ matrix.goarch }}
-        path: ./go/sapphirewrapper${{ matrix.ext }}
+        path: ./go/sapphirewrapper-${{ matrix.goarch }}${{ matrix.ext }}
 
   test:
     name: Pytest
@@ -87,7 +74,11 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-latest, macos-latest]
+        arch: [amd64, arm64]
         python-version: [3.8]
+        exclude:
+          - os: ubuntu-latest
+            arch: arm64
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
@@ -103,10 +94,16 @@ jobs:
           name: sapphirewrapper-linux-amd64
           path: ./bin/
 
-      - name: Download built library - Darwin
+      - name: Download built library - Darwin amd64
         uses: actions/download-artifact@v2
         with:
           name: sapphirewrapper-darwin-amd64
+          path: ./bin/
+
+      - name: Download built library - Darwin arm64
+        uses: actions/download-artifact@v2
+        with:
+          name: sapphirewrapper-darwin-arm64
           path: ./bin/
 
       - name: Install dependencies
@@ -117,8 +114,12 @@ jobs:
           pip install .
 
       - name: Wait for 60 seconds
-        run: sleep 60
+        run: sleep 30
         if: matrix.os == 'macos-latest'
+
+      - name: Wait for 60 seconds
+        run: sleep 30
+        if: matrix.arch == 'arm64'
 
       - name: Run tests
         env:

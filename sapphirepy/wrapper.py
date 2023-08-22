@@ -5,17 +5,27 @@ import sys
 
 lib = None
 bin_dir = os.path.join(sys.prefix, "sapphirepy_bin")
+architecture = platform.machine()
 
 if platform.system() == "Darwin":
-    lib_path = os.path.join(bin_dir, "sapphirewrapper.dylib")
-    lib = ctypes.CDLL(lib_path)
+    if architecture == "x86_64":
+        lib_path = os.path.join(bin_dir, "sapphirewrapper-amd64.dylib")
+        lib = ctypes.CDLL(lib_path)
+    elif architecture == "arm64":
+        lib_path = os.path.join(bin_dir, "sapphirewrapper-arm64.dylib")
+        lib = ctypes.CDLL(lib_path)
+    else:
+        raise Exception(f"Unsupported architecture: {architecture}")
 
 if platform.system() == "Windows":
     raise Exception("Windows is not supported")
 
 if platform.system() == "Linux":
-    lib_path = os.path.join(bin_dir, "sapphirewrapper.so")
-    lib = ctypes.CDLL(lib_path)
+    if architecture == "x86_64":
+        lib_path = os.path.join(bin_dir, "sapphirewrapper-amd64.so")
+        lib = ctypes.CDLL(lib_path)
+    else:
+        raise Exception(f"Unsupported architecture: {architecture}")
 
 
 # Define argument types
