@@ -35,8 +35,8 @@ jobs:
         - goos: linux
           goarch: arm64
           ext: '.so'
-          CC: arm-linux-gcc
-          CXX: arm-linux-gcc++
+          CC: gcc
+          CXX: g++
 
         - goos: darwin
           goarch: arm64
