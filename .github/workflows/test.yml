@@ -15,18 +15,36 @@ jobs:
     strategy:
       matrix:
         goos: [linux, darwin]
-        goarch: [amd64]
+        goarch: [amd64, arm64]
         include:
         # - goos: windows
         #   ext: '.dll'
+
         - goos: darwin
+          goarch: amd64
           ext: '.dylib'
           CC: o64-clang
           CXX: o64-clang++
+
         - goos: linux
+          goarch: amd64
           ext: '.so'
           CC: gcc
           CXX: g++
+
+        - goos: linux
+          goarch: arm64
+          ext: '.so'
+          CC: gcc
+          CXX: g++
+          
+        - goos: darwin
+          goarch: arm64
+          ext: '.dylib'
+          CC: oa64-clang
+          CXX: oa64-clang++
+
+
 
     steps:
     - name: Checkout code
