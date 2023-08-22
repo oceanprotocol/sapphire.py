@@ -75,7 +75,7 @@ jobs:
       matrix:
         os: [ubuntu-latest, macos-latest]
         arch: [amd64, arm64]
-        python-version: [3.8]
+        python-version: [3.8, 3.11]
         exclude:
           - os: ubuntu-latest
             arch: arm64
