@@ -4,7 +4,6 @@ on:
   push:
     tags:
       - 'v*'
-
 jobs:
   build:
     name: Build
@@ -18,7 +17,7 @@ jobs:
           ext: '.dylib'
           CC: o64-clang
           CXX: o64-clang++
-
+        
         - goos: linux
           goarch: amd64
           ext: '.so'
@@ -30,6 +29,12 @@ jobs:
           ext: '.dylib'
           CC: oa64-clang
           CXX: oa64-clang++
+        
+        - goos: linux
+          goarch: arm64
+          ext: '.so'
+          CC: aarch64-linux-gnu-gcc
+          CXX: aarch64-linux-gnu-g++
 
     steps:
     - name: Checkout code
@@ -45,6 +50,10 @@ jobs:
       uses: mbround18/setup-osxcross@v1
       with:
         osx-version: "11.3"
+
+    - name: Install aarch64-linux-gnu-gcc (for linux/arm64 builds only)
+      if: matrix.goos == 'linux' && matrix.goarch == 'arm64'
+      run: sudo apt-get update && sudo apt-get install -y gcc-aarch64-linux-gnu g++-aarch64-linux-gnu
 
     - name: Build Library
       run: |
@@ -92,6 +101,12 @@ jobs:
           name: sapphirewrapper-darwin-arm64
           path: ./bin/
 
+      - name: Download built library - Linux arm64
+        uses: actions/download-artifact@v2
+        with:
+          name: sapphirewrapper-linux-arm64
+          path: ./bin/
+    
       - name: Create Release
         id: create_release
         uses: actions/create-release@v1
