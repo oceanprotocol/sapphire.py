@@ -4,7 +4,6 @@ on:
   push:
     tags:
       - 'v*'
-
 jobs:
   build:
     name: Build
@@ -18,7 +17,7 @@ jobs:
           ext: '.dylib'
           CC: o64-clang
           CXX: o64-clang++
-
+        
         - goos: linux
           goarch: amd64
           ext: '.so'
@@ -30,6 +29,12 @@ jobs:
           ext: '.dylib'
           CC: oa64-clang
           CXX: oa64-clang++
+        
+        - goos: linux
+          goarch: arm64
+          ext: '.so'
+          CC: aarch64-linux-gnu-gcc
+          CXX: aarch64-linux-gnu-g++
 
     steps:
     - name: Checkout code
@@ -92,6 +97,12 @@ jobs:
           name: sapphirewrapper-darwin-arm64
           path: ./bin/
 
+      - name: Download built library - Linux arm64
+        uses: actions/download-artifact@v2
+        with:
+          name: sapphirewrapper-linux-arm64
+          path: ./bin/
+    
       - name: Create Release
         id: create_release
         uses: actions/create-release@v1
