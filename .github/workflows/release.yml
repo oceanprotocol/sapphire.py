@@ -129,6 +129,17 @@ jobs:
           asset_name: sapphirewrapper-linux-amd64.so
           asset_content_type: application/octet-stream
 
+      - name: Upload Release Asset - Linux Arm
+        id: upload-release-asset-linux
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./bin/sapphirewrapper-arm64.so
+          asset_name: sapphirewrapper-linux-arm64.so
+          asset_content_type: application/octet-stream
+
       - name: Upload Release Asset - Darwin
         id: upload-release-asset-darwin
         uses: actions/upload-release-asset@v1
