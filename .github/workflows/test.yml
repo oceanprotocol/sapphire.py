@@ -33,6 +33,13 @@ jobs:
           CC: oa64-clang
           CXX: oa64-clang++
 
+
+        - goos: linux
+          goarch: arm64
+          ext: '.so'
+          CC: aarch64-linux-gnu-gcc
+          CXX: aarch64-linux-gnu-g++
+
     steps:
     - name: Checkout code
       uses: actions/checkout@v3
@@ -76,9 +83,7 @@ jobs:
         os: [ubuntu-latest, macos-latest]
         arch: [amd64, arm64]
         python-version: [3.11]
-        exclude:
-          - os: ubuntu-latest
-            arch: arm64
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
@@ -104,6 +109,12 @@ jobs:
         uses: actions/download-artifact@v2
         with:
           name: sapphirewrapper-darwin-arm64
+          path: ./bin/
+
+      - name: Download built library - Linux arm64
+        uses: actions/download-artifact@v2
+        with:
+          name: sapphirewrapper-linux-arm64
           path: ./bin/
 
       - name: Install dependencies
