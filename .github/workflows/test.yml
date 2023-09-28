@@ -136,6 +136,10 @@ jobs:
         run: sleep 30
         if: matrix.arch == 'arm64'
 
+      - name: Wait for 60 seconds
+        run: sleep 60
+        if: matrix.arch == 'arm64' && matrix.os == 'macos-latest'
+
       - name: Run tests
         env:
           TEST_PRIVATE_KEY: ${{ secrets.TEST_PRIVATE_KEY }}

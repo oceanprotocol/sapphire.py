@@ -51,6 +51,10 @@ jobs:
       with:
         osx-version: "11.3"
 
+    - name: Install aarch64-linux-gnu-gcc (for linux/arm64 builds only)
+      if: matrix.goos == 'linux' && matrix.goarch == 'arm64'
+      run: sudo apt-get update && sudo apt-get install -y gcc-aarch64-linux-gnu g++-aarch64-linux-gnu
+
     - name: Build Library
       run: |
         export GOOS=${{ matrix.goos }}
