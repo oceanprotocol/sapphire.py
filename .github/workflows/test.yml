@@ -33,6 +33,11 @@ jobs:
           CC: oa64-clang
           CXX: oa64-clang++
 
+        - goos: windows
+          goarch: amd64
+          ext: '.dll'
+          CC: cl
+          CXX: cl
 
         - goos: linux
           goarch: arm64
