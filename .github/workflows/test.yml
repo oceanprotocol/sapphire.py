@@ -19,7 +19,7 @@ jobs:
           ext: '.dylib'
           CC: o64-clang
           CXX: o64-clang++
-          os: ubuntu-20.04
+          os: macos-latest
 
         - goos: linux
           goarch: amd64
@@ -33,7 +33,7 @@ jobs:
           ext: '.dylib'
           CC: oa64-clang
           CXX: oa64-clang++
-          os: ubuntu-20.04
+          os: macos-latest
 
         - goos: windows
           goarch: amd64
@@ -55,12 +55,6 @@ jobs:
       uses: actions/setup-go@v4
       with:
         go-version: '1.21'
-
-    - name: Setup osxcross (for darwin builds only)
-      if: matrix.goos == 'darwin'
-      uses: mbround18/setup-osxcross@v1
-      with:
-        osx-version: "11.3"
 
     - name: Setup msbuild
       if: matrix.goos == 'windows'
