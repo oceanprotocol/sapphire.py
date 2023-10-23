@@ -7,7 +7,7 @@ on:
 jobs:
   build:
     name: Build
-    runs-on: ubuntu-20.04
+    runs-on: ${{ matrix.os }}
 
     strategy:
       matrix:
@@ -15,8 +15,6 @@ jobs:
         - goos: darwin
           goarch: amd64
           ext: '.dylib'
-          CC: o64-clang
-          CXX: o64-clang++
         
         - goos: linux
           goarch: amd64
@@ -27,14 +25,17 @@ jobs:
         - goos: darwin
           goarch: arm64
           ext: '.dylib'
-          CC: oa64-clang
-          CXX: oa64-clang++
         
         - goos: linux
           goarch: arm64
           ext: '.so'
           CC: aarch64-linux-gnu-gcc
           CXX: aarch64-linux-gnu-g++
+
+        - goos: windows
+          goarch: amd64
+          ext: '.dll'
+          os: windows-latest
 
     steps:
     - name: Checkout code
@@ -43,13 +44,11 @@ jobs:
     - name: Set up Go
       uses: actions/setup-go@v4
       with:
-        go-version: '1.19'
+        go-version: '1.21'
 
-    - name: Setup osxcross (for darwin builds only)
-      if: matrix.goos == 'darwin'
-      uses: mbround18/setup-osxcross@v1
-      with:
-        osx-version: "11.3"
+    - name: Setup msbuild
+      if: matrix.goos == 'windows'
+      uses: microsoft/setup-msbuild@v1.1
 
     - name: Install aarch64-linux-gnu-gcc (for linux/arm64 builds only)
       if: matrix.goos == 'linux' && matrix.goarch == 'arm64'
@@ -106,6 +105,12 @@ jobs:
         with:
           name: sapphirewrapper-linux-arm64
           path: ./bin/
+
+      - name: Download built library - Windows amd64
+        uses: actions/download-artifact@v2
+        with:
+          name: sapphirewrapper-windows-amd64
+          path: ./bin/
     
       - name: Create Release
         id: create_release
@@ -161,6 +166,18 @@ jobs:
           asset_path: ./bin/sapphirewrapper-arm64.dylib
           asset_name: sapphirewrapper-darwin-arm64.dylib
           asset_content_type: application/octet-stream
+
+      - name: Upload Release Asset - Windows amd64
+        id: upload-release-asset-windows-amd64
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./bin/sapphirewrapper-amd64.dll
+          asset_name: sapphirewrapper-windows-amd64.dll
+          asset_content_type: application/octet-stream
+
 
       - name: Set up Python 3.8
         uses: actions/setup-python@v2
