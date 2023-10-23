@@ -17,8 +17,6 @@ jobs:
         - goos: darwin
           goarch: amd64
           ext: '.dylib'
-          CC: o64-clang
-          CXX: o64-clang++
           os: macos-latest
 
         - goos: linux
@@ -31,8 +29,6 @@ jobs:
         - goos: darwin
           goarch: arm64
           ext: '.dylib'
-          CC: oa64-clang
-          CXX: oa64-clang++
           os: macos-latest
 
         - goos: windows
