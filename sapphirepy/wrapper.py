@@ -18,7 +18,11 @@ if platform.system() == "Darwin":
         raise Exception(f"Unsupported architecture: {architecture}")
 
 if platform.system() == "Windows":
-    raise Exception("Windows is not supported")
+    if architecture == "x86_64":
+        lib_path = os.path.join(bin_dir, "sapphirewrapper-amd64.dll")
+        lib = ctypes.CDLL(lib_path)
+    else:
+        raise Exception(f"Unsupported architecture: {architecture}")
 
 if platform.system() == "Linux":
     if architecture == "x86_64":

@@ -25,12 +25,12 @@ setup(
         ]
     ),
     url="https://github.com/oceanprotocol/sapphirepy",
-    version="0.1.16",
+    version="0.1.2",
     zip_safe=False,
     data_files=[
         (
             "sapphirepy_bin",
-            ["bin/sapphirewrapper-amd64.dylib", "bin/sapphirewrapper-arm64.dylib", "bin/sapphirewrapper-amd64.so", "bin/sapphirewrapper-arm64.so"],
+            ["bin/sapphirewrapper-amd64.dylib", "bin/sapphirewrapper-arm64.dylib", "bin/sapphirewrapper-amd64.so", "bin/sapphirewrapper-arm64.so", "bin/sapphirewrapper-amd64.dll"],
         )
     ],
 )
