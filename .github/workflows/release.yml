@@ -15,22 +15,26 @@ jobs:
         - goos: darwin
           goarch: amd64
           ext: '.dylib'
+          os: macos-latest
         
         - goos: linux
           goarch: amd64
           ext: '.so'
           CC: gcc
           CXX: g++
+          os: ubuntu-20.04
 
         - goos: darwin
           goarch: arm64
           ext: '.dylib'
+          os: macos-latest
         
         - goos: linux
           goarch: arm64
           ext: '.so'
           CC: aarch64-linux-gnu-gcc
           CXX: aarch64-linux-gnu-g++
+          os: ubuntu-20.04
 
         - goos: windows
           goarch: amd64
