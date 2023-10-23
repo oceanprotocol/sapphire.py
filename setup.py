@@ -30,7 +30,7 @@ setup(
     data_files=[
         (
             "sapphirepy_bin",
-            ["bin/sapphirewrapper-amd64.dylib", "bin/sapphirewrapper-arm64.dylib", "bin/sapphirewrapper-amd64.so", "bin/sapphirewrapper-arm64.so"],
+            ["bin/sapphirewrapper-amd64.dylib", "bin/sapphirewrapper-arm64.dylib", "bin/sapphirewrapper-amd64.so", "bin/sapphirewrapper-arm64.so", "bin/sapphirewrapper-amd64.dll"],
         )
     ],
 )
