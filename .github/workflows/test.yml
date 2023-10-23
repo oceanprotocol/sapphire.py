@@ -88,6 +88,10 @@ jobs:
         os: [ubuntu-latest, macos-latest]
         arch: [amd64, arm64]
         python-version: [3.11]
+        include:
+          - os: windows-latest
+            arch: amd64
+            python-version: 3.11
 
     steps:
       - name: Checkout code
@@ -120,6 +124,12 @@ jobs:
         uses: actions/download-artifact@v2
         with:
           name: sapphirewrapper-linux-arm64
+          path: ./bin/
+
+      - name: Download built library - Windows amd64
+        uses: actions/download-artifact@v2
+        with:
+          name: sapphirewrapper-windows-amd64
           path: ./bin/
 
       - name: Install dependencies
