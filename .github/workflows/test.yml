@@ -139,11 +139,11 @@ jobs:
           pip install web3
           pip install .
 
-      - name: Wait for 60 seconds
+      - name: Wait for 30 seconds
         run: sleep 30
         if: matrix.os == 'macos-latest'
 
-      - name: Wait for 60 seconds
+      - name: Wait for 30 seconds
         run: sleep 30
         if: matrix.arch == 'arm64'
 
