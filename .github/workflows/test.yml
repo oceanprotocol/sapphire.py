@@ -20,7 +20,7 @@ jobs:
           ext: '.dylib'
           CC: o64-clang
           CXX: o64-clang++
-          os: macos-latest
+          os: ubuntu-20.04
 
         - goos: linux
           goarch: amd64
@@ -34,7 +34,7 @@ jobs:
           ext: '.dylib'
           CC: oa64-clang
           CXX: oa64-clang++
-          os: macos-latest
+          os: ubuntu-20.04
 
         - goos: windows
           goarch: amd64
