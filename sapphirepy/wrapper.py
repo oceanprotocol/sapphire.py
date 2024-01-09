@@ -28,6 +28,9 @@ if platform.system() == "Linux":
     if architecture == "x86_64":
         lib_path = os.path.join(bin_dir, "sapphirewrapper-amd64.so")
         lib = ctypes.CDLL(lib_path)
+    elif architecture == "aarch64" or architecture == "amd64":
+        lib_path = os.path.join(bin_dir, "sapphirewrapper-arm64.so")
+        lib = ctypes.CDLL(lib_path)
     else:
         raise Exception(f"Unsupported architecture: {architecture}")
 
